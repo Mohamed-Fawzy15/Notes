@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 import AuthContextProvider from "@/context/Auth/AuthContext";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import SideBar from "./(Component)/Sidebar/SideBar";
+import TokenContextProvider from "@/context/Token/TokenContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,14 +19,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <AuthContextProvider>
-          <AppRouterCacheProvider>
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
-          </AppRouterCacheProvider>
-        </AuthContextProvider>
+      <body className={` antialiased`}>
+        <TokenContextProvider>
+          <AuthContextProvider>
+            <AppRouterCacheProvider>
+              <ThemeProvider theme={theme}>
+                <SideBar />
+                {children}
+              </ThemeProvider>
+            </AppRouterCacheProvider>
+          </AuthContextProvider>
+        </TokenContextProvider>
       </body>
     </html>
   );

@@ -5,3 +5,8 @@ export interface signUpInterface {
   age: number;
   phone: string;
 }
+
+export interface loginInterface {
+  email: string;
+  password: string;
+}

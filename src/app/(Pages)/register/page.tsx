@@ -1,8 +1,9 @@
 "use client";
 
 import { Box, TextField } from "@mui/material";
-// import Image from "next/image";
-// import img from "../../../public/vercel.svg";
+import Image from "next/image";
+import img from "../../../assets/vercel.svg";
+import signupImage from "../../../assets/signup.svg";
 import styles from "./register.module.css";
 import { useForm } from "react-hook-form";
 import { signUpInterface } from "@/Interfaces/Interfaces";
@@ -44,138 +45,248 @@ export default function Register() {
   };
 
   return (
-    <div className=" flex items-center flex-col justify-center">
+    <div className=" flex items-center flex-col justify-center min-h-screen">
       <Box
         component="section"
         sx={{ p: 2, bgcolor: "#eee" }}
-        className="rounded-lg w-1/3 text-center shadow-lg"
+        className="rounded-lg w-2/3 text-center shadow-lg flex"
       >
-        <div className="flex items-center justify-center gap-2">
-          <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-            {/* <Image src={img} alt="logo image" width={30} height={30} /> */}
-          </div>
-          <h1 className="text-3xl ">Sign Up</h1>
+        <div className="w-1/2 flex items-center">
+          <Image
+            src={signupImage}
+            alt="signup Image"
+            className="w-full"
+            width={100}
+            height={100}
+          />
         </div>
-
-        <form onSubmit={handleSubmit(registerUser)}>
-          <div>
-            <TextField
-              id="outlined-basic"
-              label="Your Name"
-              variant="outlined"
-              {...register("name")}
-              sx={{
-                width: "100%",
-                marginY: "20px",
-              }}
-            />
-            {errors.name && (
-              <div className="text-red-500 text-sm m-2">
-                {errors.name.message}
-              </div>
-            )}
+        <div className="w-1/2">
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+              <Image src={img} alt="logo image" width={30} height={30} />
+            </div>
+            <h1 className="text-3xl ">Sign Up</h1>
           </div>
 
-          <div>
-            <TextField
-              id="outlined-basic"
-              label="Your Email"
-              variant="outlined"
-              {...register("email")}
-              type="email"
-              sx={{
-                width: "100%",
-                marginY: "20px",
-              }}
-            />
-            {errors.email && (
-              <div className="text-red-500 text-sm m-2">
-                {errors.email.message}
-              </div>
-            )}
-          </div>
-
-          <div>
-            <TextField
-              id="outlined-basic"
-              label="Password"
-              variant="outlined"
-              {...register("password")}
-              type="password"
-              sx={{
-                width: "100%",
-                marginY: "20px",
-              }}
-            />
-            {errors.password && (
-              <div className="text-red-500 text-sm m-2">
-                {errors.password.message}
-              </div>
-            )}
-          </div>
-
-          <div>
-            <TextField
-              id="outlined-basic"
-              label="Age"
-              variant="outlined"
-              {...register("age")}
-              type="text"
-              sx={{
-                width: "100%",
-                marginY: "20px",
-              }}
-            />
-
-            {errors.age && (
-              <div className="text-red-500 text-sm m-2">
-                {errors.age.message}
-              </div>
-            )}
-          </div>
-
-          <div>
-            <TextField
-              id="outlined-basic"
-              label="Phone"
-              variant="outlined"
-              {...register("phone")}
-              type="tel"
-              sx={{
-                width: "100%",
-                marginY: "20px",
-              }}
-            />
-
-            {errors.phone && (
-              <div className="text-red-500 text-sm m-2">
-                {errors.phone.message}
-              </div>
-            )}
-          </div>
-
-          <button
-            className={`${styles.animatedButton} disabled:cursor-not-allowed`}
-            disabled={!isValid || !isDirty}
+          <form
+            onSubmit={handleSubmit(registerUser)}
+            className="flex flex-col items-center"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={styles.arr2}
-              viewBox="0 0 24 24"
+            {/* name */}
+            <div className="w-full my-3">
+              <TextField
+                id="outlined-basic"
+                label="Your Name"
+                variant="outlined"
+                {...register("name")}
+                sx={{
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "blue",
+                      // Change focus border color
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    "&.Mui-focused": {
+                      color: "black",
+                      // Change focus label color
+                    },
+                  },
+                  "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input": {
+                    backgroundColor: "white",
+                  },
+                  ".mui-1t3gl92-MuiInputBase-root-MuiOutlinedInput-root": {
+                    borderRadius: "20px",
+                    overflow: "hidden",
+                  },
+                }}
+              />
+              {errors.name && (
+                <div className="text-red-500 text-sm ">
+                  {errors.name.message}
+                </div>
+              )}
+            </div>
+
+            {/* email */}
+            <div className="w-full my-3">
+              <TextField
+                id="outlined-basic"
+                label="Your Email"
+                variant="outlined"
+                {...register("email")}
+                type="email"
+                sx={{
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "blue", // Change focus border color
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    "&.Mui-focused": {
+                      color: "black",
+                      // Change focus label color
+                    },
+                  },
+                  "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input": {
+                    backgroundColor: "white",
+                  },
+                  ".mui-1t3gl92-MuiInputBase-root-MuiOutlinedInput-root": {
+                    borderRadius: "20px",
+                    overflow: "hidden",
+                  },
+                }}
+              />
+              {errors.email && (
+                <div className="text-red-500 text-sm ">
+                  {errors.email.message}
+                </div>
+              )}
+            </div>
+
+            {/* password */}
+            <div className="w-full my-3">
+              <TextField
+                id="outlined-basic"
+                label="Password"
+                variant="outlined"
+                {...register("password")}
+                type="password"
+                sx={{
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "&.Mui-focused fieldset": {
+                      borderColor: "blue", // Change focus border color
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    "&.Mui-focused": {
+                      color: "black",
+                      // Change focus label color
+                    },
+                  },
+                  "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input": {
+                    backgroundColor: "white",
+                  },
+                  ".mui-1t3gl92-MuiInputBase-root-MuiOutlinedInput-root": {
+                    borderRadius: "20px",
+                    overflow: "hidden",
+                  },
+                }}
+              />
+              {errors.password && (
+                <div className="text-red-500 text-sm">
+                  {errors.password.message}
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-between gap-5 w-full my-3">
+              <div>
+                {/* Age */}
+                <TextField
+                  id="outlined-basic"
+                  label="Age"
+                  variant="outlined"
+                  {...register("age")}
+                  type="text"
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      "&.Mui-focused fieldset": {
+                        borderColor: "blue",
+                        // Change focus border color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      "&.Mui-focused": {
+                        color: "black",
+                        // Change focus label color
+                      },
+                    },
+                    "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input":
+                      {
+                        backgroundColor: "white",
+                      },
+                    ".mui-1t3gl92-MuiInputBase-root-MuiOutlinedInput-root": {
+                      borderRadius: "20px",
+                      overflow: "hidden",
+                    },
+                  }}
+                />
+
+                {errors.age && (
+                  <div className="text-red-500 text-sm">
+                    {errors.age.message}
+                  </div>
+                )}
+              </div>
+
+              {/* Phone */}
+              <div>
+                <TextField
+                  id="outlined-basic"
+                  label="Phone"
+                  variant="outlined"
+                  {...register("phone")}
+                  type="tel"
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      "&.Mui-focused fieldset": {
+                        borderColor: "blue", // Change focus border color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      "&.Mui-focused": {
+                        color: "black",
+                        // Change focus label color
+                      },
+                    },
+                    "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input":
+                      {
+                        backgroundColor: "white",
+                      },
+                    ".mui-1t3gl92-MuiInputBase-root-MuiOutlinedInput-root": {
+                      borderRadius: "20px",
+                      overflow: "hidden",
+                    },
+                  }}
+                />
+
+                {errors.phone && (
+                  <div className="text-red-500 text-sm">
+                    {errors.phone.message}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <button
+              className={`${styles.animatedButton} disabled:cursor-not-allowed `}
+              disabled={!isValid || !isDirty}
             >
-              <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-            </svg>
-            <span className={styles.text}>Sign Up</span>
-            <span className={styles.circle} />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={styles.arr1}
-              viewBox="0 0 24 24"
-            >
-              <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-            </svg>
-          </button>
-        </form>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={styles.arr2}
+                viewBox="0 0 24 24"
+              >
+                <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+              </svg>
+              <span className={styles.text}>Sign Up</span>
+              <span className={styles.circle} />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={styles.arr1}
+                viewBox="0 0 24 24"
+              >
+                <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+              </svg>
+            </button>
+          </form>
+        </div>
       </Box>
     </div>
   );
