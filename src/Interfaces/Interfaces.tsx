@@ -10,3 +10,8 @@ export interface loginInterface {
   email: string;
   password: string;
 }
+
+export interface note {
+  title: string;
+  content: string;
+}

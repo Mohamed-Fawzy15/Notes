@@ -1,74 +1,135 @@
-import Image from "next/image";
-import img from "../../../assets/vercel.svg";
-import { IoMdAdd, IoMdLogIn } from "react-icons/io";
-import { RiUserAddFill } from "react-icons/ri";
+"use client";
+
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import {
+  RiLoginCircleLine,
+  RiLogoutCircleLine,
+  RiNextjsFill,
+} from "react-icons/ri";
+import { useContext, useState } from "react";
+import { TokenContext } from "@/context/Token/TokenContext";
+import { IoMdAddCircle } from "react-icons/io";
+import { IoPersonAdd } from "react-icons/io5";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import AddModal from "../Modal/Modal";
 
 export default function SideBar() {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const { token, setToken } = useContext(TokenContext);
+
+  const handleLogOut = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <div>
-      <div>
-        <div className="absolute flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 h-[100vh]  max-w-[5rem] p-4 shadow-xl shadow-blue-gray-900/5">
-          <div className="mb-2">
-            <h5 className="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                <Image src={img} alt="logo image" width={30} height={30} />
-              </div>
-            </h5>
-          </div>
-          <nav className="flex flex-col justify-between font-sans text-base font-normal h-screen text-gray-700">
-            <div>
-              <div
-                role="button"
-                tabIndex={0}
-                className="group/navItem flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-              >
-                <div className="grid place-items-center bg-black w-10 h-6 rounded-full group-hover/navItem:bg-white">
-                  <IoMdAdd className="text-white group-hover/navItem:text-black" />
-                </div>
-              </div>
-              <div
-                role="button"
-                tabIndex={0}
-                className="group/navItem flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-              >
-                <div className="grid place-items-center bg-black w-10 h-6 rounded-full group-hover/navItem:bg-white">
-                  <IoMdLogIn className="text-white group-hover/navItem:text-black" />
-                </div>
-              </div>
-              <div
-                role="button"
-                tabIndex={0}
-                className="group/navItem flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-              >
-                <div className="grid place-items-center bg-black w-10 h-6 rounded-full group-hover/navItem:bg-white">
-                  <RiUserAddFill className="text-white group-hover/navItem:text-black" />
-                </div>
-              </div>
-            </div>
-            <div
-              role="button"
-              tabIndex={0}
-              className="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+    <Box
+      sx={{
+        flexGrow: 1,
+        bgcolor: "white",
+        ".mui-ptdwpq-MuiPaper-root-MuiAppBar-root": {
+          backgroundColor: "#DDDDDD",
+          height: "100vh",
+          width: "70px",
+          position: "fixed",
+        },
+        ".MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.mui-1ygil4i-MuiToolbar-root":
+          {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        ".mui-w6cvuv-MuiButtonBase-root-MuiIconButton-root": {
+          marginLeft: "0",
+          marginRight: "0",
+        },
+      }}
+    >
+      <AppBar position="static">
+        <Toolbar>
+          <div className="flex flex-col justify-center items-center">
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{
+                mr: 2,
+              }}
             >
-              <div className="grid place-items-center mr-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+              <RiNextjsFill className="text-black" />
+            </IconButton>
+
+            {token && (
+              <div
+                onClick={() => setIsOpen(true)}
+                className=" cursor-pointer bg-gray-700 w-10 h-7 flex justify-center items-center rounded-full"
+              >
+                <IoMdAddCircle />
               </div>
+            )}
+
+            {!token && (
+              <div>
+                <Link href={"/register"}>
+                  <IoPersonAdd className="text-2xl my-2 text-gray-700" />
+                </Link>
+
+                <Link href={"/login"}>
+                  <RiLoginCircleLine className="text-2xl my-2 text-gray-700" />
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {token && (
+            <div className="my-2">
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleLogOut}
+                color="inherit"
+              >
+                <RiLogoutCircleLine className="text-gray-700" />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              ></Menu>
             </div>
-          </nav>
-        </div>
-      </div>
-    </div>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      <AddModal isOpen={isOpen} setIsOpen={setIsOpen} />
+    </Box>
   );
 }

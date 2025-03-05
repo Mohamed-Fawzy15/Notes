@@ -6,6 +6,7 @@ import theme from "../theme";
 import AuthContextProvider from "@/context/Auth/AuthContext";
 import SideBar from "./(Component)/Sidebar/SideBar";
 import TokenContextProvider from "@/context/Token/TokenContext";
+import NotesContextProvider from "@/context/NotesContext/NotesContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,12 +23,14 @@ export default function RootLayout({
       <body className={` antialiased`}>
         <TokenContextProvider>
           <AuthContextProvider>
-            <AppRouterCacheProvider>
-              <ThemeProvider theme={theme}>
-                <SideBar />
-                {children}
-              </ThemeProvider>
-            </AppRouterCacheProvider>
+            <NotesContextProvider>
+              <AppRouterCacheProvider>
+                <ThemeProvider theme={theme}>
+                  <SideBar />
+                  {children}
+                </ThemeProvider>
+              </AppRouterCacheProvider>
+            </NotesContextProvider>
           </AuthContextProvider>
         </TokenContextProvider>
       </body>

@@ -29,6 +29,7 @@ export default function Login() {
 
   const handleLogin = async (values: loginInterface) => {
     const data = await loginUser(values);
+    localStorage.setItem("token", data.token);
     setToken(data.token);
     console.log(data);
   };
