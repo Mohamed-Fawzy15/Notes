@@ -11,9 +11,12 @@ import { isDirty, isValid, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import { AuthContext } from "@/context/Auth/AuthContext";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function Register() {
   const { addUser } = useContext(AuthContext);
+  const router = useRouter();
 
   const schema = z.object({
     name: z
@@ -41,7 +44,18 @@ export default function Register() {
 
   const registerUser = async (values: signUpInterface) => {
     const data = await addUser(values);
-    console.log(data);
+
+    if (data.msg === "done") {
+      Swal.fire({
+        title: "Sign up successful",
+        icon: "success",
+        draggable: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push("/login");
+        }
+      });
+    }
   };
 
   return (
@@ -49,7 +63,7 @@ export default function Register() {
       <Box
         component="section"
         sx={{ p: 2, bgcolor: "#eee" }}
-        className="rounded-lg w-2/3 text-center shadow-lg flex"
+        className="rounded-lg w-2/3 text-center shadow-lg flex items-center justify-center"
       >
         <div className="w-1/2 flex items-center">
           <Image
@@ -183,8 +197,8 @@ export default function Register() {
               )}
             </div>
 
-            <div className="flex justify-between gap-5 w-full my-3">
-              <div>
+            <div className="flex justify-between gap-2 w-full my-3">
+              <div className="w-1/3">
                 {/* Age */}
                 <TextField
                   id="outlined-basic"
@@ -225,7 +239,7 @@ export default function Register() {
               </div>
 
               {/* Phone */}
-              <div>
+              <div className="w-2/3">
                 <TextField
                   id="outlined-basic"
                   label="Phone"

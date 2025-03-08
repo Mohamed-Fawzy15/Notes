@@ -7,6 +7,7 @@ import AuthContextProvider from "@/context/Auth/AuthContext";
 import SideBar from "./(Component)/Sidebar/SideBar";
 import TokenContextProvider from "@/context/Token/TokenContext";
 import NotesContextProvider from "@/context/NotesContext/NotesContext";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,8 +27,25 @@ export default function RootLayout({
             <NotesContextProvider>
               <AppRouterCacheProvider>
                 <ThemeProvider theme={theme}>
-                  <SideBar />
-                  {children}
+                  <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                  />
+                  <div className="flex min-h-screen">
+                    <div className="w-20">
+                      <SideBar />
+                    </div>
+
+                    <main className="flex-1 p-4 w-full ">{children}</main>
+                  </div>
                 </ThemeProvider>
               </AppRouterCacheProvider>
             </NotesContextProvider>

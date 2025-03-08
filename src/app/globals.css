@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@layer components {
+  .row {
+    @apply flex flex-wrap gap-3;
+  }
+}

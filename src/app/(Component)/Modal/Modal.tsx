@@ -1,7 +1,6 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
@@ -9,17 +8,22 @@ import { note } from "@/Interfaces/Interfaces";
 import { useContext } from "react";
 import { NotesContext } from "@/context/NotesContext/NotesContext";
 import { IoCloseOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 600,
+  height: 350,
   bgcolor: "background.paper",
-
   borderRadius: "20px",
   boxShadow: 24,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  gap: "20px",
 };
 
 export default function AddModal({ isOpen, setIsOpen }) {
@@ -30,7 +34,12 @@ export default function AddModal({ isOpen, setIsOpen }) {
 
   const handleSendNote = async (values) => {
     const sendData = await addNote(values);
-    console.log(sendData);
+    if (sendData.msg === "done") {
+      toast.success("Note added successfully");
+      setIsOpen(false);
+    } else {
+      toast.error("Failed to add note");
+    }
   };
 
   return (
@@ -53,7 +62,10 @@ export default function AddModal({ isOpen, setIsOpen }) {
                 New Note
               </Typography>
 
-              <button className="w-8 h-8 mx-2 bg-white cursor-pointer rounded-3xl border-2 border-[#5a52fd] shadow-[inset_0px_-2px_0px_1px_#5a52fd] group hover:bg-[#5a52fd] transition duration-300 ease-in-out">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="w-8 h-8 mx-2 bg-white cursor-pointer rounded-3xl border-2 border-[#2B7FFF] shadow-[inset_0px_-2px_0px_1px_#2B7FFF] group hover:bg-[#2B7FFF] transition duration-300 ease-in-out"
+              >
                 <span className="font-medium text-[#333] group-hover:text-white flex justify-center items-center">
                   <IoCloseOutline className="text-3xl" />
                 </span>
@@ -84,7 +96,7 @@ export default function AddModal({ isOpen, setIsOpen }) {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="cursor-pointer bg-gradient-to-b my-2 mx-2 from-indigo-500 to-indigo-600 shadow-[0px_4px_32px_0_rgba(99,102,241,.70)] px-6 py-1 rounded-xl border-[1px] border-slate-500 text-white font-medium group"
+                  className="cursor-pointer bg-gradient-to-b my-2 mx-2 from-blue-500 to-blue-600 shadow-[0px_4px_32px_0_rgba(99,102,241,.70)] px-6 py-1 rounded-xl border-[1px] border-slate-500 text-white font-medium group"
                 >
                   <div className="relative overflow-hidden">
                     <p className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">

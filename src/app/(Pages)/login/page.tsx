@@ -11,16 +11,20 @@ import { isDirty, isValid, z } from "zod";
 import { useContext } from "react";
 import { AuthContext } from "@/context/Auth/AuthContext";
 import { TokenContext } from "@/context/Token/TokenContext";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const { loginUser } = useContext(AuthContext);
   const { setToken } = useContext(TokenContext);
+  const router = useRouter();
+
   const schema = z.object({
     email: z.string().email("Email must be valid"),
     password: z
       .string()
       .regex(/^[a-zA-Z0-9]{8,}$/, "Password must be at least 8 characters"),
   });
+
   const {
     register,
     handleSubmit,
@@ -31,7 +35,9 @@ export default function Login() {
     const data = await loginUser(values);
     localStorage.setItem("token", data.token);
     setToken(data.token);
-    console.log(data);
+    if (data.msg === "done") {
+      router.push("/");
+    }
   };
   return (
     <div>
