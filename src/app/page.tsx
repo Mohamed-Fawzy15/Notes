@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import UpdateModal from "./(Component)/UpdateModal/UpdateModal";
 
 export default function Home() {
-  const { getNotes, removeNote, notes, setNotes } = useContext(NotesContext);
+  const { getNotes, removeNote, notes } = useContext(NotesContext);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [noteToUpdate, setNoteToUpdate] = useState(null);
 
