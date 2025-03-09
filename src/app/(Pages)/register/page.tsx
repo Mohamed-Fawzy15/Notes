@@ -2,7 +2,6 @@
 
 import { Box, TextField } from "@mui/material";
 import Image from "next/image";
-import img from "../../../assets/vercel.svg";
 import signupImage from "../../../assets/signup.svg";
 import styles from "./register.module.css";
 import { useForm } from "react-hook-form";
@@ -13,6 +12,7 @@ import { useContext } from "react";
 import { AuthContext } from "@/context/Auth/AuthContext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { RiNextjsFill } from "react-icons/ri";
 
 export default function Register() {
   const { addUser } = useContext(AuthContext);
@@ -65,7 +65,7 @@ export default function Register() {
         sx={{ p: 2, bgcolor: "#eee" }}
         className="rounded-lg w-2/3 text-center shadow-lg flex items-center justify-center"
       >
-        <div className="w-1/2 flex items-center">
+        <div className="w-1/2 hidden md:flex items-center">
           <Image
             src={signupImage}
             alt="signup Image"
@@ -74,10 +74,11 @@ export default function Register() {
             height={100}
           />
         </div>
-        <div className="w-1/2">
+
+        <div className=" md:w-1/2">
           <div className="flex items-center justify-center gap-2">
-            <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-              <Image src={img} alt="logo image" width={30} height={30} />
+            <div className="w-10 h-10 bg-black/80 rounded-full flex items-center justify-center">
+              <RiNextjsFill className="text-[#2B7FFF] text-3xl" />
             </div>
             <h1 className="text-3xl ">Sign Up</h1>
           </div>

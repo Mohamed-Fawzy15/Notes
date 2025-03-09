@@ -2,16 +2,18 @@
 
 import { note } from "@/Interfaces/Interfaces";
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { TokenContext } from "../Token/TokenContext";
 
 export const NotesContext = createContext(null);
 
-const headers = {
-  token: "3b8ny__" + localStorage.getItem("token"),
-};
-
 export default function NotesContextProvider({ children }) {
   const [notes, setNotes] = useState([]);
+  const { token } = useContext(TokenContext);
+
+  const headers = {
+    token: "3b8ny__" + token,
+  };
 
   const getNotes = async () => {
     try {

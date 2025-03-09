@@ -17,6 +17,7 @@ import { IoPersonAdd } from "react-icons/io5";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AddModal from "../Modal/Modal";
+import Cookies from "js-cookie";
 
 export default function SideBar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,7 +29,7 @@ export default function SideBar() {
 
   const handleLogOut = () => {
     setToken(null);
-    localStorage.removeItem("token");
+    Cookies.remove("token");
     router.push("/login");
   };
 
@@ -61,7 +62,7 @@ export default function SideBar() {
       }}
     >
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar style={{ justifyContent: "space-between", height: "100vh" }}>
           <div className="flex flex-col justify-center items-center">
             <IconButton
               size="large"
@@ -72,26 +73,26 @@ export default function SideBar() {
                 mr: 2,
               }}
             >
-              <RiNextjsFill className="text-black" />
+              <RiNextjsFill className="text-[#2B7FFF]" />
             </IconButton>
 
             {token && (
               <div
                 onClick={() => setIsOpen(true)}
-                className=" cursor-pointer bg-gray-700 w-10 h-7 flex justify-center items-center rounded-full"
+                className=" cursor-pointer bg-blue-500 w-10 h-7 flex justify-center items-center rounded-full"
               >
                 <IoMdAddCircle />
               </div>
             )}
 
             {!token && (
-              <div>
+              <div className="flex flex-col gap-3">
                 <Link href={"/register"}>
-                  <IoPersonAdd className="text-2xl my-2 text-gray-700" />
+                  <IoPersonAdd className="text-2xl my-2 text-blue-700" />
                 </Link>
 
                 <Link href={"/login"}>
-                  <RiLoginCircleLine className="text-2xl my-2 text-gray-700" />
+                  <RiLoginCircleLine className="text-2xl my-2 text-blue-700" />
                 </Link>
               </div>
             )}
@@ -107,7 +108,7 @@ export default function SideBar() {
                 onClick={handleLogOut}
                 color="inherit"
               >
-                <RiLogoutCircleLine className="text-gray-700" />
+                <RiLogoutCircleLine className="text-blue-700" />
               </IconButton>
               <Menu
                 id="menu-appbar"

@@ -3,7 +3,6 @@ import { Box, TextField } from "@mui/material";
 import Image from "next/image";
 import styles from "./login.module.css";
 import loginImg from "../../../assets/login.svg";
-import img from "../../../assets/vercel.svg";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginInterface } from "@/Interfaces/Interfaces";
@@ -12,10 +11,12 @@ import { useContext } from "react";
 import { AuthContext } from "@/context/Auth/AuthContext";
 import { TokenContext } from "@/context/Token/TokenContext";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { RiNextjsFill } from "react-icons/ri";
 
 export default function Login() {
   const { loginUser } = useContext(AuthContext);
-  const { setToken } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
   const router = useRouter();
 
   const schema = z.object({
@@ -33,8 +34,8 @@ export default function Login() {
 
   const handleLogin = async (values: loginInterface) => {
     const data = await loginUser(values);
-    localStorage.setItem("token", data.token);
     setToken(data.token);
+    Cookies.set("token", token, { expires: 7 });
     if (data.msg === "done") {
       router.push("/");
     }
@@ -47,7 +48,7 @@ export default function Login() {
           sx={{ p: 2, bgcolor: "#eee" }}
           className="rounded-lg w-2/3 text-center shadow-lg flex items-center"
         >
-          <div className="w-1/2 flex items-center">
+          <div className="w-1/2 hidden md:flex items-center">
             <Image
               src={loginImg}
               alt="signup Image"
@@ -56,10 +57,10 @@ export default function Login() {
               height={100}
             />
           </div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <div className="flex items-center justify-center gap-2">
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                <Image src={img} alt="logo image" width={30} height={30} />
+              <div className="w-10 h-10 bg-black/80 rounded-full flex items-center justify-center">
+                <RiNextjsFill className="text-[#2B7FFF] text-3xl" />
               </div>
               <h1 className="text-3xl ">log In</h1>
             </div>

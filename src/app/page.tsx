@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 import UpdateModal from "./(Component)/UpdateModal/UpdateModal";
 
 export default function Home() {
-  // const [notes, setNotes] = useState([]);
   const { getNotes, removeNote, notes, setNotes } = useContext(NotesContext);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [noteToUpdate, setNoteToUpdate] = useState(null);
@@ -37,7 +36,7 @@ export default function Home() {
         {notes.length > 0 ? (
           notes.map((note, i) => (
             <div
-              className="w-64 bg-white shadow-[0px_0px_15px_rgba(0,0,0,0.09)] p-9 space-y-3 relative overflow-hidden"
+              className="w-64 bg-white shadow-[0px_0px_15px_rgba(0,0,0,0.09)] p-9 space-y-3 relative overflow-hidden rounded-lg"
               key={note._id}
             >
               <div className="w-24 h-24 bg-blue-500 rounded-full absolute -right-5 -top-7">
