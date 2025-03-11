@@ -1,9 +1,14 @@
 "use client";
-import { loginInterface, signUpInterface } from "@/Interfaces/Interfaces";
+import {
+  AuthContextProviderProps,
+  AuthContextType,
+  loginInterface,
+  signUpInterface,
+} from "@/Interfaces/Interfaces";
 import axios from "axios";
 import { createContext } from "react";
 
-export const AuthContext = createContext(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 const addUser = (values: signUpInterface) => {
   return axios
@@ -18,7 +23,9 @@ const loginUser = (values: loginInterface) => {
     .then((res) => res.data)
     .catch((err) => console.log(err));
 };
-export default function AuthContextProvider({ children }) {
+export default function AuthContextProvider({
+  children,
+}: AuthContextProviderProps) {
   return (
     <AuthContext.Provider value={{ addUser, loginUser }}>
       {children}

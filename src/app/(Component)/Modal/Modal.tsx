@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
-import { note } from "@/Interfaces/Interfaces";
+import { AddModalProps, note } from "@/Interfaces/Interfaces";
 import { useContext } from "react";
 import { NotesContext } from "@/context/NotesContext/NotesContext";
 import { IoCloseOutline } from "react-icons/io5";
@@ -26,15 +26,22 @@ const style = {
   gap: "20px",
 };
 
-export default function AddModal({ isOpen, setIsOpen }) {
+export default function AddModal({ isOpen, setIsOpen }: AddModalProps) {
   const handleClose = () => setIsOpen(false);
-  const { addNote } = useContext(NotesContext);
+
+  const notesContext = useContext(NotesContext);
+
+  if (!notesContext) {
+    throw new Error("AddModal must be used within a NotesContextProvider");
+  }
+
+  const { addNote } = notesContext;
 
   const { register, handleSubmit } = useForm<note>({ mode: "all" });
 
-  const handleSendNote = async (values) => {
+  const handleSendNote = async (values: note): Promise<void> => {
     const sendData = await addNote(values);
-    if (sendData.msg === "done") {
+    if (sendData?.msg === "done") {
       toast.success("Note added successfully");
       setIsOpen(false);
     } else {

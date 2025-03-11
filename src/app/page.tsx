@@ -5,15 +5,23 @@ import { GrNotes } from "react-icons/gr";
 import { AiFillEdit } from "react-icons/ai";
 import Swal from "sweetalert2";
 import UpdateModal from "./(Component)/UpdateModal/UpdateModal";
+import { note } from "@/Interfaces/Interfaces";
 
 export default function Home() {
-  const { getNotes, removeNote, notes } = useContext(NotesContext);
+  const notesContext = useContext(NotesContext);
+
+  if (!notesContext) {
+    throw new Error("Home must be used within a NotesContextProvider");
+  }
+
+  const { getNotes, removeNote, notes } = notesContext;
+
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [noteToUpdate, setNoteToUpdate] = useState(null);
+  const [noteToUpdate, setNoteToUpdate] = useState<note | null>(null);
 
   const removeData = async (id) => {
     const data = await removeNote(id);
-    if (data.msg === "done") {
+    if (data?.msg === "done") {
       Swal.fire({
         title: "Note deleted successfully",
         icon: "success",
@@ -22,14 +30,14 @@ export default function Home() {
     }
   };
 
-  const openUpdateModal = (note) => {
+  const openUpdateModal = (note: note) => {
     setNoteToUpdate(note);
     setIsUpdateModalOpen(true);
   };
 
   useEffect(() => {
     getNotes();
-  }, []);
+  }, [getNotes]);
   return (
     <div className="w-full">
       <div className="row">
@@ -50,11 +58,11 @@ export default function Home() {
               <h1 className="font-bold text-xl">{note.title}</h1>
               <p className="text-sm text-zinc-500 leading-6">{note.content}</p>
 
-              <div
-                onClick={() => openUpdateModal(note)}
-                className="flex justify-between"
-              >
-                <button className=" cursor-pointer w-8 h-8 rounded-full flex justify-center items-center bg-blue-500">
+              <div className="flex justify-between">
+                <button
+                  onClick={() => openUpdateModal(note)}
+                  className=" cursor-pointer w-8 h-8 rounded-full flex justify-center items-center bg-blue-500"
+                >
                   <AiFillEdit className="text-white text-xl" />
                 </button>
 

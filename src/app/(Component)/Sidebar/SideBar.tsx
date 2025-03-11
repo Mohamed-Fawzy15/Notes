@@ -25,7 +25,13 @@ export default function SideBar() {
 
   const router = useRouter();
 
-  const { token, setToken } = useContext(TokenContext);
+  const tokenContext = useContext(TokenContext);
+
+  if (!tokenContext) {
+    throw new Error("SideBar must be used within a TokenContextProvider");
+  }
+
+  const { token, setToken } = tokenContext;
 
   const handleLogOut = () => {
     setToken(null);

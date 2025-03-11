@@ -16,6 +16,7 @@
     "@mui/material": "^6.4.6",
     "@mui/material-nextjs": "^6.4.3",
     "axios": "^1.8.1",
+    "cookies-next": "^5.1.0",
     "js-cookie": "^3.0.5",
     "next": "15.2.0",
     "react": "^19.0.0",

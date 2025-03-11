@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { IoCloseOutline } from "react-icons/io5";
 import { Modal, Box, Typography } from "@mui/material";
+import { note, UpdateModalProps } from "@/Interfaces/Interfaces";
 
 const style = {
   position: "absolute",
@@ -22,9 +23,20 @@ const style = {
   gap: "20px",
 };
 
-export default function UpdateModal({ isOpen, setIsOpen, noteToUpdate }) {
-  const { updateNote } = useContext(NotesContext);
-  const { register, handleSubmit, setValue } = useForm();
+export default function UpdateModal({
+  isOpen,
+  setIsOpen,
+  noteToUpdate,
+}: UpdateModalProps) {
+  const notesContext = useContext(NotesContext);
+
+  if (!notesContext) {
+    throw new Error("UpdateModal must be used within a NotesContextProvider");
+  }
+
+  const { updateNote } = notesContext;
+
+  const { register, handleSubmit, setValue } = useForm<note>();
 
   // Pre-fill the form with the note's data
   useEffect(() => {
@@ -34,9 +46,9 @@ export default function UpdateModal({ isOpen, setIsOpen, noteToUpdate }) {
     }
   }, [noteToUpdate, setValue]);
 
-  const handleUpdateNote = async (values) => {
+  const handleUpdateNote = async (values: note): Promise<void> => {
     const sendData = await updateNote(noteToUpdate._id, values);
-    if (sendData.msg === "done") {
+    if (sendData?.msg === "done") {
       toast.success("Note updated successfully");
       setIsOpen(false);
     } else {

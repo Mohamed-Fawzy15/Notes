@@ -1,14 +1,20 @@
 "use client";
 
-import { note } from "@/Interfaces/Interfaces";
+import {
+  note,
+  NotesContextProviderProps,
+  NotesContextType,
+} from "@/Interfaces/Interfaces";
 import axios from "axios";
 import { createContext, useContext, useState } from "react";
 import { TokenContext } from "../Token/TokenContext";
 
-export const NotesContext = createContext(null);
+export const NotesContext = createContext<NotesContextType | null>(null);
 
-export default function NotesContextProvider({ children }) {
-  const [notes, setNotes] = useState([]);
+export default function NotesContextProvider({
+  children,
+}: NotesContextProviderProps) {
+  const [notes, setNotes] = useState<note[]>([]);
   const { token } = useContext(TokenContext);
 
   const headers = {
@@ -55,13 +61,8 @@ export default function NotesContextProvider({ children }) {
       return res.data;
     } catch (err) {
       console.log(err);
+      throw err;
     }
-    return axios
-      .delete(`https://note-sigma-black.vercel.app/api/v1/notes/${noteId}`, {
-        headers,
-      })
-      .then((res) => res.data)
-      .catch((err) => console.log(err));
   };
 
   const updateNote = async (noteId: string, updatedNote: note) => {
@@ -80,6 +81,7 @@ export default function NotesContextProvider({ children }) {
       return res.data;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   };
 

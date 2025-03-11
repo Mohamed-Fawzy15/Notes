@@ -1,31 +1,38 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import {
+  TokenContextProviderProps,
+  TokenContextType,
+} from "@/Interfaces/Interfaces";
 
-export const TokenContext = createContext(null);
+export const TokenContext = createContext<TokenContextType | null>(null);
 
-export default function TokenContextProvider({ children }) {
-  const [token, setTokenState] = useState<string | null>(null);
+export default function TokenContextProvider({
+  children,
+}: TokenContextProviderProps) {
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = Cookies.get("token");
     if (storedToken) {
-      setTokenState(storedToken);
+      setToken(storedToken);
     }
   }, []);
 
-  // Function to update token in state and cookies
-  const setToken = (newToken: string | null) => {
+  console.log(token);
+
+  const updateToken = (newToken: string | null) => {
+    setToken(newToken);
     if (newToken) {
-      Cookies.set("token", newToken, { expires: 7 }); // Set token for 7 days
+      Cookies.set("token", newToken, { expires: 7 }); // Expires in 7 days
     } else {
-      Cookies.remove("token"); // Remove token on logout
+      Cookies.remove("token");
     }
-    setTokenState(newToken);
   };
 
   return (
-    <TokenContext.Provider value={{ token, setToken }}>
+    <TokenContext.Provider value={{ token, setToken: updateToken }}>
       {children}
     </TokenContext.Provider>
   );

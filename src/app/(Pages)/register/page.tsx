@@ -6,7 +6,7 @@ import signupImage from "../../../assets/signup.svg";
 import styles from "./register.module.css";
 import { useForm } from "react-hook-form";
 import { signUpInterface } from "@/Interfaces/Interfaces";
-import { isDirty, isValid, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import { AuthContext } from "@/context/Auth/AuthContext";
@@ -15,7 +15,13 @@ import Swal from "sweetalert2";
 import { RiNextjsFill } from "react-icons/ri";
 
 export default function Register() {
-  const { addUser } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("Register must be used within an AuthContextProvider");
+  }
+  const { addUser } = authContext;
+
   const router = useRouter();
 
   const schema = z.object({
@@ -39,10 +45,10 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<signUpInterface>({ mode: "all", resolver: zodResolver(schema) });
 
-  const registerUser = async (values: signUpInterface) => {
+  const registerUser = async (values: signUpInterface): Promise<void> => {
     const data = await addUser(values);
 
     if (data.msg === "done") {
@@ -251,13 +257,12 @@ export default function Register() {
                     width: "100%",
                     "& .MuiOutlinedInput-root": {
                       "&.Mui-focused fieldset": {
-                        borderColor: "blue", // Change focus border color
+                        borderColor: "blue",
                       },
                     },
                     "& .MuiInputLabel-root": {
                       "&.Mui-focused": {
                         color: "black",
-                        // Change focus label color
                       },
                     },
                     "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input":

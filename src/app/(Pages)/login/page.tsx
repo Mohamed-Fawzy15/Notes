@@ -6,7 +6,7 @@ import loginImg from "../../../assets/login.svg";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginInterface } from "@/Interfaces/Interfaces";
-import { isDirty, isValid, z } from "zod";
+import { z } from "zod";
 import { useContext } from "react";
 import { AuthContext } from "@/context/Auth/AuthContext";
 import { TokenContext } from "@/context/Token/TokenContext";
@@ -15,8 +15,15 @@ import Cookies from "js-cookie";
 import { RiNextjsFill } from "react-icons/ri";
 
 export default function Login() {
-  const { loginUser } = useContext(AuthContext);
-  const { token, setToken } = useContext(TokenContext);
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("Register must be used within an AuthContextProvider");
+  }
+  const { loginUser } = authContext;
+
+  const tokenContext = useContext(TokenContext);
+
   const router = useRouter();
 
   const schema = z.object({
@@ -29,20 +36,32 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<loginInterface>({ mode: "all", resolver: zodResolver(schema) });
 
   const handleLogin = async (values: loginInterface) => {
-    const data = await loginUser(values);
-    setToken(data.token);
-    Cookies.set("token", token, { expires: 7 });
-    if (data.msg === "done") {
-      router.push("/");
+    try {
+      const data = await loginUser(values);
+      if (data.token && tokenContext) {
+        tokenContext.setToken(data.token);
+        Cookies.set("token", data.token, { expires: 7 });
+        if (data.msg === "done") {
+          router.push("/");
+        }
+      } else {
+        tokenContext?.setToken(null);
+        Cookies.remove("token");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      tokenContext?.setToken(null);
+      Cookies.remove("token");
     }
   };
+
   return (
     <div>
-      <div className=" flex items-center flex-col justify-center min-h-screen">
+      <div className="flex items-center flex-col justify-center min-h-screen">
         <Box
           component="section"
           sx={{ p: 2, bgcolor: "#eee" }}
@@ -62,7 +81,7 @@ export default function Login() {
               <div className="w-10 h-10 bg-black/80 rounded-full flex items-center justify-center">
                 <RiNextjsFill className="text-[#2B7FFF] text-3xl" />
               </div>
-              <h1 className="text-3xl ">log In</h1>
+              <h1 className="text-3xl">Log In</h1>
             </div>
 
             <form
@@ -81,13 +100,12 @@ export default function Login() {
                     width: "100%",
                     "& .MuiOutlinedInput-root": {
                       "&.Mui-focused fieldset": {
-                        borderColor: "blue", // Change focus border color
+                        borderColor: "blue",
                       },
                     },
                     "& .MuiInputLabel-root": {
                       "&.Mui-focused": {
                         color: "black",
-                        // Change focus label color
                       },
                     },
                     "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input":
@@ -101,7 +119,7 @@ export default function Login() {
                   }}
                 />
                 {errors.email && (
-                  <div className="text-red-500 text-sm ">
+                  <div className="text-red-500 text-sm">
                     {errors.email.message}
                   </div>
                 )}
@@ -119,13 +137,12 @@ export default function Login() {
                     width: "100%",
                     "& .MuiOutlinedInput-root": {
                       "&.Mui-focused fieldset": {
-                        borderColor: "blue", // Change focus border color
+                        borderColor: "blue",
                       },
                     },
                     "& .MuiInputLabel-root": {
                       "&.Mui-focused": {
                         color: "black",
-                        // Change focus label color
                       },
                     },
                     "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input":
@@ -146,7 +163,7 @@ export default function Login() {
               </div>
 
               <button
-                className={`${styles.animatedButton} disabled:cursor-not-allowed `}
+                className={`${styles.animatedButton} disabled:cursor-not-allowed`}
                 disabled={!isValid || !isDirty}
               >
                 <svg
