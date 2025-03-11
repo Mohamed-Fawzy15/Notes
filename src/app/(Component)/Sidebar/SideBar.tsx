@@ -48,36 +48,34 @@ export default function SideBar() {
       sx={{
         flexGrow: 1,
         bgcolor: "white",
-        ".mui-ptdwpq-MuiPaper-root-MuiAppBar-root": {
+      }}
+    >
+      <AppBar
+        position="static"
+        sx={{
           backgroundColor: "#DDDDDD",
           height: "100vh",
           width: "70px",
-          position: "fixed",
-        },
-        ".MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.mui-1ygil4i-MuiToolbar-root":
-          {
+          boxShadow: "none", // Optional: remove default shadow if desired
+        }}
+      >
+        <Toolbar
+          sx={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "space-between", // Matches your inline style
             alignItems: "center",
-          },
-        ".mui-w6cvuv-MuiButtonBase-root-MuiIconButton-root": {
-          marginLeft: "0",
-          marginRight: "0",
-        },
-      }}
-    >
-      <AppBar position="static">
-        <Toolbar style={{ justifyContent: "space-between", height: "100vh" }}>
+            height: "100vh",
+            minHeight: "100vh", // Ensures full height
+          }}
+        >
           <div className="flex flex-col justify-center items-center">
             <IconButton
               size="large"
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{
-                mr: 2,
-              }}
+              sx={{ py: "10px", px: 0, mx: "auto" }}
             >
               <RiNextjsFill className="text-[#2B7FFF]" />
             </IconButton>

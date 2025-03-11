@@ -11,6 +11,7 @@ export const TokenContext = createContext<TokenContextType | null>(null);
 export default function TokenContextProvider({
   children,
 }: TokenContextProviderProps) {
+    
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {

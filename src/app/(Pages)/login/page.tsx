@@ -102,19 +102,14 @@ export default function Login() {
                       "&.Mui-focused fieldset": {
                         borderColor: "blue",
                       },
+                      backgroundColor: "white", // Moved here from hardcoded class
+                      borderRadius: "20px", // Moved here from hardcoded class
+                      overflow: "hidden", // Moved here from hardcoded class
                     },
                     "& .MuiInputLabel-root": {
                       "&.Mui-focused": {
                         color: "black",
                       },
-                    },
-                    "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        backgroundColor: "white",
-                      },
-                    ".mui-1t3gl92-MuiInputBase-root-MuiOutlinedInput-root": {
-                      borderRadius: "20px",
-                      overflow: "hidden",
                     },
                   }}
                 />
@@ -139,19 +134,14 @@ export default function Login() {
                       "&.Mui-focused fieldset": {
                         borderColor: "blue",
                       },
+                      backgroundColor: "white", // Moved here from hardcoded class
+                      borderRadius: "20px", // Moved here from hardcoded class
+                      overflow: "hidden", // Moved here from hardcoded class
                     },
                     "& .MuiInputLabel-root": {
                       "&.Mui-focused": {
                         color: "black",
                       },
-                    },
-                    "& .mui-16wblaj-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        backgroundColor: "white",
-                      },
-                    ".mui-1t3gl92-MuiInputBase-root-MuiOutlinedInput-root": {
-                      borderRadius: "20px",
-                      overflow: "hidden",
                     },
                   }}
                 />

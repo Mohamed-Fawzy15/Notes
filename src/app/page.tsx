@@ -6,8 +6,19 @@ import { AiFillEdit } from "react-icons/ai";
 import Swal from "sweetalert2";
 import UpdateModal from "./(Component)/UpdateModal/UpdateModal";
 import { note } from "@/Interfaces/Interfaces";
+import { TokenContext } from "@/context/Token/TokenContext";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const tokenContext = useContext(TokenContext);
+  const router = useRouter();
+
+  if (!tokenContext) {
+    throw new Error("Page must be used within a TokenContextProvider");
+  }
+
+  const { token } = tokenContext;
+
   const notesContext = useContext(NotesContext);
 
   if (!notesContext) {
@@ -38,7 +49,7 @@ export default function Home() {
   useEffect(() => {
     getNotes();
   }, [getNotes]);
-  return (
+  return token ? (
     <div className="w-full">
       <div className="row">
         {notes.length > 0 ? (
@@ -129,5 +140,7 @@ export default function Home() {
         />
       </div>
     </div>
+  ) : (
+    router.push("/login")
   );
 }
