@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { IoCloseOutline } from "react-icons/io5";
 import { Modal, Box, Typography } from "@mui/material";
-import { note, UpdateModalProps } from "@/Interfaces/Interfaces";
+import { note } from "@/Interfaces/Interfaces"; // Ensure note includes _id
 
 const style = {
-  position: "absolute",
+  position: "absolute" as const,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -23,6 +23,12 @@ const style = {
   gap: "20px",
 };
 
+interface UpdateModalProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  noteToUpdate: note | null;
+}
+
 export default function UpdateModal({
   isOpen,
   setIsOpen,
@@ -36,9 +42,8 @@ export default function UpdateModal({
 
   const { updateNote } = notesContext;
 
-  const { register, handleSubmit, setValue } = useForm<note>();
+  const { register, handleSubmit, setValue } = useForm<note>({ mode: "all" });
 
-  // Pre-fill the form with the note's data
   useEffect(() => {
     if (noteToUpdate) {
       setValue("title", noteToUpdate.title);
@@ -47,6 +52,10 @@ export default function UpdateModal({
   }, [noteToUpdate, setValue]);
 
   const handleUpdateNote = async (values: note): Promise<void> => {
+    if (!noteToUpdate || !noteToUpdate._id) {
+      toast.error("No note or note ID selected to update");
+      return;
+    }
     const sendData = await updateNote(noteToUpdate._id, values);
     if (sendData?.msg === "done") {
       toast.success("Note updated successfully");
@@ -68,7 +77,6 @@ export default function UpdateModal({
           >
             Update Note
           </Typography>
-
           <button
             onClick={() => setIsOpen(false)}
             className="w-8 h-8 mx-2 bg-white cursor-pointer rounded-3xl border-2 border-[#2B7FFF] shadow-[inset_0px_-2px_0px_1px_#2B7FFF] group hover:bg-[#2B7FFF] transition duration-300 ease-in-out"
@@ -78,7 +86,6 @@ export default function UpdateModal({
             </span>
           </button>
         </div>
-
         <hr />
         <form onSubmit={handleSubmit(handleUpdateNote)}>
           <div>
@@ -89,17 +96,15 @@ export default function UpdateModal({
               className="focus:outline-none mx-2"
             />
           </div>
-
           <div>
             <textarea
               placeholder="Write your thought here..."
               {...register("content")}
               className="w-full focus:outline-none p-2 resize-none"
               rows={5}
-            ></textarea>
+            />
           </div>
           <hr />
-
           <div className="flex justify-end">
             <button
               type="submit"

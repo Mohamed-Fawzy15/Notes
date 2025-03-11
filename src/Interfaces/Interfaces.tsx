@@ -40,7 +40,7 @@ export interface NotesContextType {
   setNotes: (notes: note[]) => void;
   getNotes: () => Promise<void>;
   addNote: (values: note) => Promise<{ msg: string } | undefined>; // we make it like that because it return object
-  removeNote: (noteId: string) => Promise<void>;
+  removeNote: (noteId: string) => Promise<{ msg: string } | undefined>;
   updateNote: (
     noteId: string,
     updatedNote: note

@@ -15,7 +15,14 @@ export default function NotesContextProvider({
   children,
 }: NotesContextProviderProps) {
   const [notes, setNotes] = useState<note[]>([]);
-  const { token } = useContext(TokenContext);
+
+  const tokenContext = useContext(TokenContext);
+
+  if (!tokenContext) {
+    throw new Error("UpdateModal must be used within a NotesContextProvider");
+  }
+
+  const { token } = tokenContext;
 
   const headers = {
     token: "3b8ny__" + token,

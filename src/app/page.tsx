@@ -19,7 +19,7 @@ export default function Home() {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [noteToUpdate, setNoteToUpdate] = useState<note | null>(null);
 
-  const removeData = async (id) => {
+  const removeData = async (id: string): Promise<void> => {
     const data = await removeNote(id);
     if (data?.msg === "done") {
       Swal.fire({
@@ -67,7 +67,7 @@ export default function Home() {
                 </button>
 
                 <button
-                  onClick={() => removeData(note._id)}
+                  onClick={() => note._id && removeData(note._id)}
                   className="cursor-pointer group relative flex h-8 w-8 flex-col items-center justify-center overflow-hidden rounded-xl  border-red-800 bg-red-400 hover:bg-red-600"
                 >
                   <svg
