@@ -51,7 +51,7 @@ export default function Home() {
   }, [getNotes]);
   return token ? (
     <div className="w-full">
-      <div className="row">
+      <div className="row justify-center lg:justify-normal md:p-5 ">
         {notes.length > 0 ? (
           notes.map((note, i) => (
             <div
